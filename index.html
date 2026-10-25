@@ -1,606 +1,354 @@
 <!DOCTYPE html>
-<html lang="vi" class="scroll-smooth">
+<html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WanderLust - Khám Phá Thế Giới Theo Cách Của Bạn</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            700: '#0369a1',
-                            900: '#0c4a6e',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        .glass-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-        .hero-bg {
-            background-image: linear-gradient(rgba(15, 23, 42, 0.55), rgba(15, 23, 42, 0.7)), url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2021&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SoulSpire – Hành trình Nam Bộ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  /* ===== 1. BIẾN MÀU & RESET ===== */
+  :root{
+    --ink:#1b2a2f; --teal:#0f6b75; --teal-dark:#0a4a52;
+    --sun:#f4a259; --coral:#e4572e; --sand:#fdf6ec; --white:#fff;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Be Vietnam Pro',sans-serif;color:var(--ink);background:var(--sand);line-height:1.6}
+  h1,h2,h3{font-family:'Playfair Display',serif}
+  section{padding:80px 6%}
+  .section-title{font-size:2.2rem;text-align:center;margin-bottom:8px}
+  .section-sub{text-align:center;color:#5b6b70;margin-bottom:48px}
+
+  /* ===== 2. THANH ĐIỀU HƯỚNG (dính trên đầu) ===== */
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;
+      align-items:center;padding:14px 6%;background:rgba(253,246,236,.92);backdrop-filter:blur(8px);
+      box-shadow:0 2px 12px rgba(0,0,0,.06)}
+  .logo{font-family:'Playfair Display',serif;font-weight:800;font-size:1.4rem;color:var(--teal)}
+  .logo span{color:var(--coral)}
+  nav ul{display:flex;gap:24px;list-style:none}
+  nav a{text-decoration:none;color:var(--ink);font-weight:500;font-size:.95rem}
+  nav a:hover{color:var(--coral)}
+  @media(max-width:760px){nav ul{display:none}}
+
+  /* ===== 3. HERO ===== */
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;
+        text-align:center;color:var(--white);padding-top:90px;
+        background:linear-gradient(160deg,rgba(10,74,82,.95),rgba(15,107,117,.85) 45%,rgba(244,162,89,.9));}
+  .hero small{letter-spacing:4px;text-transform:uppercase;opacity:.85}
+  .hero h1{font-size:clamp(3rem,9vw,6rem);font-weight:800;margin:12px 0}
+  .hero p{max-width:560px;font-weight:300;font-size:1.15rem;margin-bottom:32px}
+  .btn{display:inline-block;background:var(--coral);color:#fff;padding:14px 34px;border-radius:40px;
+       text-decoration:none;font-weight:600;border:none;cursor:pointer;font-size:1rem;
+       transition:transform .2s,box-shadow .2s}
+  .btn:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(228,87,46,.4)}
+  .stats{display:flex;gap:40px;margin-top:56px;flex-wrap:wrap;justify-content:center}
+  .stat b{display:block;font-size:1.8rem;font-family:'Playfair Display',serif}
+  .stat span{font-size:.85rem;opacity:.85}
+
+  /* ===== 4. LỊCH TRÌNH (tab theo ngày) ===== */
+  .tabs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:36px}
+  .tab{padding:10px 24px;border-radius:30px;border:2px solid var(--teal);background:transparent;
+       color:var(--teal);font-weight:600;cursor:pointer;font-family:inherit;transition:.2s}
+  .tab.active,.tab:hover{background:var(--teal);color:#fff}
+  .day-panel{max-width:760px;margin:0 auto;background:#fff;border-radius:20px;padding:36px;
+             box-shadow:0 10px 40px rgba(15,107,117,.1)}
+  .city-badge{display:inline-block;background:var(--sun);color:var(--ink);padding:4px 14px;
+              border-radius:20px;font-size:.8rem;font-weight:600;margin-bottom:8px}
+  .day-panel h3{font-size:1.6rem;margin-bottom:24px}
+  .timeline{list-style:none;position:relative;padding-left:44px}
+  .timeline::before{content:"";position:absolute;left:15px;top:6px;bottom:6px;width:2px;background:#d9e5e6}
+  .timeline li{position:relative;margin-bottom:22px}
+  .timeline .num{position:absolute;left:-44px;top:0;width:32px;height:32px;border-radius:50%;
+                 background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:600;font-size:.85rem}
+  .timeline li.end .num{background:var(--coral)}
+  .timeline b{display:block}
+  .timeline p{color:#5b6b70;font-size:.92rem}
+
+  /* ===== 5. THẺ (khách sạn / ăn uống) ===== */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;max-width:1100px;margin:0 auto}
+  .card{background:#fff;border-radius:18px;padding:28px;box-shadow:0 6px 24px rgba(0,0,0,.06);
+        transition:transform .25s}
+  .card:hover{transform:translateY(-6px)}
+  .card .icon{font-size:2rem;margin-bottom:10px}
+  .card h3{font-size:1.2rem;margin-bottom:4px}
+  .card .tag{color:var(--coral);font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:1px}
+  .food-group{max-width:1100px;margin:0 auto 40px}
+  .food-group h3{margin-bottom:16px;color:var(--teal-dark)}
+  .chips{display:flex;flex-wrap:wrap;gap:12px}
+  .chip{background:#fff;padding:12px 22px;border-radius:30px;box-shadow:0 4px 14px rgba(0,0,0,.06);font-weight:500}
+
+  /* ===== 6. QUÀ LƯU NIỆM BÍ ẨN ===== */
+  .mystery{background:var(--teal-dark);color:#fff;text-align:center}
+  .mystery .box{width:200px;height:200px;margin:0 auto 24px;border-radius:24px;cursor:pointer;
+                display:grid;place-items:center;font-size:5rem;font-family:'Playfair Display',serif;
+                background:linear-gradient(135deg,#1c8f9c,#0a4a52);border:2px dashed var(--sun);
+                animation:float 3s ease-in-out infinite}
+  .mystery .box.shake{animation:shake .5s}
+  @keyframes float{50%{transform:translateY(-12px)}}
+  @keyframes shake{25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
+  .mystery p{opacity:.85;min-height:28px}
+
+  /* ===== 7. ĐẶT TOUR ===== */
+  .booking{max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:32px}
+  @media(max-width:760px){.booking{grid-template-columns:1fr}}
+  .price-box{background:linear-gradient(160deg,var(--teal),var(--teal-dark));color:#fff;padding:36px;border-radius:20px}
+  .price-box .from{opacity:.8;font-size:.9rem}
+  .price-box .price{font-family:'Playfair Display',serif;font-size:2.6rem;color:var(--sun)}
+  .seat-bar{height:10px;background:rgba(255,255,255,.2);border-radius:10px;margin:18px 0 6px;overflow:hidden}
+  .seat-fill{height:100%;background:var(--sun);width:0;transition:width .6s}
+  form{background:#fff;padding:32px;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,.08)}
+  label{display:block;font-size:.85rem;font-weight:600;margin:14px 0 4px}
+  input{width:100%;padding:12px 14px;border:1.5px solid #d9e5e6;border-radius:10px;font:inherit}
+  input:focus{outline:none;border-color:var(--teal)}
+  .total{margin:18px 0;font-weight:600}
+  .msg{margin-top:14px;font-weight:500;color:var(--teal)}
+  .msg.error{color:var(--coral)}
+
+  footer{background:var(--ink);color:#aab8bb;text-align:center;padding:32px;font-size:.9rem}
+
+  /* ===== 8. HIỆU ỨNG HIỆN DẦN KHI CUỘN ===== */
+  .reveal{opacity:0;transform:translateY(30px);transition:all .7s}
+  .reveal.show{opacity:1;transform:none}
+</style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased">
 
-    <!-- Navigation -->
-    <nav class="fixed top-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-100 transition-all duration-300" id="navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <!-- Logo -->
-                <div class="flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0, 0)">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-teal-400 flex items-center justify-center text-white shadow-lg shadow-brand-500/30">
-                        <i class="fa-solid fa-compass text-xl"></i>
-                    </div>
-                    <span class="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-brand-700 to-teal-600 bg-clip-text text-transparent">WanderLust</span>
-                </div>
+<body>
 
-                <!-- Desktop Nav Items -->
-                <div class="hidden md:flex items-center space-x-8 font-medium text-slate-600">
-                    <a href="#hero" class="hover:text-brand-600 transition-colors">Trang chủ</a>
-                    <a href="#tours" class="hover:text-brand-600 transition-colors">Tour nổi bật</a>
-                    <a href="#features" class="hover:text-brand-600 transition-colors">Ưu điểm</a>
-                    <a href="#reviews" class="hover:text-brand-600 transition-colors">Đánh giá</a>
-                    <a href="#contact" class="hover:text-brand-600 transition-colors">Liên hệ</a>
-                </div>
+<!-- ===== THANH ĐIỀU HƯỚNG ===== -->
+<nav>
+  <div class="logo">Soul<span>Spire</span></div>
+  <ul>
+    <li><a href="#lichtrinh">Lịch trình</a></li>
+    <li><a href="#luutru">Lưu trú</a></li>
+    <li><a href="#amthuc">Ẩm thực</a></li>
+    <li><a href="#qua">Quà tặng</a></li>
+    <li><a href="#dattour">Đặt tour</a></li>
+  </ul>
+</nav>
 
-                <!-- Call to Action -->
-                <div class="hidden md:flex items-center">
-                    <a href="#tours" class="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-full font-semibold shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
-                        Đặt Tour Ngay
-                    </a>
-                </div>
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <small>Hành trình Nam Bộ</small>
+  <h1>SoulSpire</h1>
+  <p>4 ngày 3 đêm đi qua Sài Gòn sôi động, địa đạo Củ Chi huyền thoại và biển Vũng Tàu đầy nắng gió.</p>
+  <a href="#dattour" class="btn">Giữ chỗ ngay</a>
+  <div class="stats">
+    <div class="stat"><b>4N3Đ</b><span>Thời gian</span></div>
+    <div class="stat"><b>20</b><span>Khách / chuyến</span></div>
+    <div class="stat"><b>2</b><span>Điểm đến</span></div>
+    <div class="stat"><b>4.990.000đ</b><span>Giá từ / người</span></div>
+  </div>
+</header>
 
-                <!-- Mobile menu button -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="p-2 rounded-lg text-slate-600 hover:text-slate-900 focus:outline-none">
-                        <i class="fa-solid fa-bars text-2xl"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
+<!-- ===== LỊCH TRÌNH ===== -->
+<section id="lichtrinh">
+  <h2 class="section-title reveal">Lịch trình chi tiết</h2>
+  <p class="section-sub reveal">Chọn từng ngày để xem hành trình</p>
+  <div class="tabs" id="tabs"></div>
+  <div class="day-panel reveal" id="dayPanel"></div>
+</section>
 
-        <!-- Mobile Menu Dropdown -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-100 px-4 pt-2 pb-4 space-y-2">
-            <a href="#hero" class="block px-3 py-2 rounded-lg font-medium text-slate-700 hover:bg-slate-50">Trang chủ</a>
-            <a href="#tours" class="block px-3 py-2 rounded-lg font-medium text-slate-700 hover:bg-slate-50">Tour nổi bật</a>
-            <a href="#features" class="block px-3 py-2 rounded-lg font-medium text-slate-700 hover:bg-slate-50">Ưu điểm</a>
-            <a href="#reviews" class="block px-3 py-2 rounded-lg font-medium text-slate-700 hover:bg-slate-50">Đánh giá</a>
-            <a href="#contact" class="block px-3 py-2 rounded-lg font-medium text-slate-700 hover:bg-slate-50">Liên hệ</a>
-        </div>
-    </nav>
+<!-- ===== LƯU TRÚ ===== -->
+<section id="luutru" style="background:#fff">
+  <h2 class="section-title reveal">Nơi nghỉ ngơi</h2>
+  <p class="section-sub reveal">Hai khách sạn cho ba đêm</p>
+  <div class="grid" id="hotelGrid"></div>
+</section>
 
-    <!-- Hero Section -->
-    <section id="hero" class="hero-bg min-h-screen pt-32 pb-20 flex flex-col justify-center items-center relative px-4 sm:px-6">
-        <div class="max-w-4xl mx-auto text-center space-y-6">
-            <span class="inline-block px-4 py-1.5 bg-brand-500/20 text-brand-300 border border-brand-400/30 rounded-full text-sm font-semibold tracking-wide uppercase backdrop-blur-md">
-                ✨ Trải nghiệm hành trình mơ ước
-            </span>
-            <h1 class="text-4xl sm:text-6xl font-extrabold text-white leading-tight tracking-tight">
-                Khám Phá Cùng <span class="bg-gradient-to-r from-cyan-400 to-teal-300 bg-clip-text text-transparent">WanderLust</span>
-            </h1>
-            <p class="text-lg sm:text-xl text-slate-200 font-normal max-w-2xl mx-auto">
-                Hàng trăm điểm đến hấp dẫn cùng dịch vụ trọn gói chất lượng cao đang chờ đón bạn. Lên kế hoạch chuyến đi ngay hôm nay!
-            </p>
-        </div>
+<!-- ===== ẨM THỰC ===== -->
+<section id="amthuc">
+  <h2 class="section-title reveal">Ẩm thực dọc đường</h2>
+  <p class="section-sub reveal">Ăn gì ở đâu đã có SoulSpire lo</p>
+  <div class="food-group reveal">
+    <h3>🍜 TP. Hồ Chí Minh – Nhà hàng</h3>
+    <div class="chips" id="foodHCM"></div>
+  </div>
+  <div class="food-group reveal">
+    <h3>🦐 Vũng Tàu – Món ăn</h3>
+    <div class="chips" id="foodVT"></div>
+  </div>
+</section>
 
-        <!-- Search & Filter Bar -->
-        <div class="w-full max-w-5xl mt-10">
-            <div class="glass-card p-4 sm:p-6 rounded-3xl shadow-2xl border border-white/40">
-                <form id="search-form" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <!-- Location Input -->
-                    <div class="space-y-1">
-                        <label class="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                            <i class="fa-solid fa-location-dot text-brand-500"></i> Điểm Đến
-                        </label>
-                        <select id="filter-location" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
-                            <option value="all">Tất cả điểm đến</option>
-                            <option value="da-nang">Đà Nẵng - Hội An</option>
-                            <option value="phu-quoc">Phú Quốc</option>
-                            <option value="ha-long">Vịnh Hạ Long</option>
-                            <option value="sapa">Sapa - Lào Cai</option>
-                            <option value="japan">Nhật Bản (Quốc tế)</option>
-                        </select>
-                    </div>
+<!-- ===== QUÀ LƯU NIỆM BÍ ẨN ===== -->
+<section id="qua" class="mystery">
+  <h2 class="section-title reveal">Quà lưu niệm</h2>
+  <p class="section-sub reveal" style="color:#cfe3e5">Có một món quà đang chờ bạn…</p>
+  <div class="box" id="mysteryBox">?</div>
+  <p id="mysteryText">Chạm vào hộp để thử vận may 🤫</p>
+</section>
 
-                    <!-- Category Input -->
-                    <div class="space-y-1">
-                        <label class="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                            <i class="fa-solid fa-umbrella-beach text-brand-500"></i> Loại Hình
-                        </label>
-                        <select id="filter-type" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
-                            <option value="all">Tất cả thể loại</option>
-                            <option value="beach">Nghỉ dưỡng biển</option>
-                            <option value="mountain">Khám phá núi rừng</option>
-                            <option value="culture">Văn hóa & Di sản</option>
-                            <option value="luxury">Cao cấp Luxury</option>
-                        </select>
-                    </div>
-
-                    <!-- Budget Input -->
-                    <div class="space-y-1">
-                        <label class="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                            <i class="fa-solid fa-wallet text-brand-500"></i> Ngân Sách
-                        </label>
-                        <select id="filter-price" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all">
-                            <option value="all">Mọi mức giá</option>
-                            <option value="under-5">Dưới 5 Triệu</option>
-                            <option value="5-10">5 - 10 Triệu</option>
-                            <option value="over-10">Trên 10 Triệu</option>
-                        </select>
-                    </div>
-
-                    <!-- Search Button -->
-                    <div class="flex items-end">
-                        <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-2.5 px-4 rounded-xl shadow-lg shadow-brand-500/30 flex items-center justify-center gap-2 transition-all active:scale-95">
-                            <i class="fa-solid fa-magnifying-glass"></i> Tìm Tour
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- Popular Tour Packages -->
-    <section id="tours" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
-            <div>
-                <span class="text-brand-600 font-bold text-sm tracking-widest uppercase">Gợi Ý Hàng Đầu</span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-1">Các Tour Du Lịch Phổ Biến</h2>
-            </div>
-            <p class="text-slate-500 max-w-md mt-4 md:mt-0">
-                Lựa chọn từ danh sách những chuyến đi tuyệt vời được đông đảo du khách đánh giá cao nhất.
-            </p>
-        </div>
-
-        <!-- Tour Cards Grid -->
-        <div id="tours-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Tour items rendered dynamically via JS -->
-        </div>
-
-        <div id="no-tours" class="hidden text-center py-12">
-            <i class="fa-solid fa-compass-drafting text-5xl text-slate-300 mb-3"></i>
-            <p class="text-slate-500 font-medium">Không tìm thấy tour phù hợp với bộ lọc của bạn.</p>
-        </div>
-    </section>
-
-    <!-- Why Choose Us / Features -->
-    <section id="features" class="bg-slate-100/70 py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-2xl mx-auto mb-16">
-                <span class="text-brand-600 font-bold text-sm tracking-widest uppercase">Tại Sao Chọn WanderLust</span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-1">Trải Nghiệm Dịch Vụ Đẳng Cấp</h2>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Feature 1 -->
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300">
-                    <div class="w-14 h-14 bg-brand-50 rounded-xl flex items-center justify-center text-brand-600 text-2xl mb-6">
-                        <i class="fa-solid fa-shield-halved"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Bảo Hiểm Đầy Đủ</h3>
-                    <p class="text-slate-600 leading-relaxed">
-                        Mọi chuyến đi đều kèm theo gói bảo hiểm du lịch cao cấp, giúp bạn hoàn toàn an tâm khám phá mọi nẻo đường.
-                    </p>
-                </div>
-
-                <!-- Feature 2 -->
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300">
-                    <div class="w-14 h-14 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 text-2xl mb-6">
-                        <i class="fa-solid fa-tags"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Giá Tốt Nhất</h3>
-                    <p class="text-slate-600 leading-relaxed">
-                        Cam kết mức giá cạnh tranh nhất thị trường cùng nhiều ưu đãi hấp dẫn dành riêng cho khách hàng thân thiết.
-                    </p>
-                </div>
-
-                <!-- Feature 3 -->
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300">
-                    <div class="w-14 h-14 bg-amber-50 rounded-xl flex items-center justify-center text-amber-600 text-2xl mb-6">
-                        <i class="fa-solid fa-headset"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-3">Hỗ Trợ 24/7</h3>
-                    <p class="text-slate-600 leading-relaxed">
-                        Đội ngũ tư vấn viên chuyên nghiệp sẵn sàng hỗ trợ, giải đáp thắc mắc của bạn mọi lúc, mọi nơi.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials / User Reviews -->
-    <section id="reviews" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div class="text-center max-w-2xl mx-auto mb-16">
-            <span class="text-brand-600 font-bold text-sm tracking-widest uppercase">Cảm Nhận Khách Hàng</span>
-            <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-1">Câu Chuyện Từ Những Chuyến Đi</h2>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Review 1 -->
-            <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-md flex flex-col justify-between">
-                <div class="space-y-4">
-                    <div class="flex text-amber-400 gap-1">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="text-slate-600 italic">"Chuyến đi Phú Quốc cùng WanderLust vượt ngoài mong đợi! Hướng dẫn viên chu đáo, khách sạn sang trọng và lịch trình vô cùng hợp lý."</p>
-                </div>
-                <div class="flex items-center gap-4 mt-6 pt-4 border-t border-slate-100">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop" class="w-12 h-12 rounded-full object-cover" alt="User">
-                    <div>
-                        <h4 class="font-bold text-slate-900">Minh Anh</h4>
-                        <span class="text-xs text-slate-400">Tour Phú Quốc 4N3Đ</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Review 2 -->
-            <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-md flex flex-col justify-between">
-                <div class="space-y-4">
-                    <div class="flex text-amber-400 gap-1">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="text-slate-600 italic">"Dịch vụ chuyên nghiệp, hỗ trợ tận tình từ khâu đặt vé đến khi kết thúc tour. Sapa thật đẹp và thơ mộng!"</p>
-                </div>
-                <div class="flex items-center gap-4 mt-6 pt-4 border-t border-slate-100">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop" class="w-12 h-12 rounded-full object-cover" alt="User">
-                    <div>
-                        <h4 class="font-bold text-slate-900">Hoàng Nam</h4>
-                        <span class="text-xs text-slate-400">Tour Sapa Sương Mùa</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Review 3 -->
-            <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-md flex flex-col justify-between">
-                <div class="space-y-4">
-                    <div class="flex text-amber-400 gap-1">
-                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                    </div>
-                    <p class="text-slate-600 italic">"Trải nghiệm tuyệt vời tại Nhật Bản mùa hoa anh đào. Đồ ăn ngon, chỗ ở sạch sẽ, sẽ tiếp tục ủng hộ WanderLust."</p>
-                </div>
-                <div class="flex items-center gap-4 mt-6 pt-4 border-t border-slate-100">
-                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=200&auto=format&fit=crop" class="w-12 h-12 rounded-full object-cover" alt="User">
-                    <div>
-                        <h4 class="font-bold text-slate-900">Thanh Thảo</h4>
-                        <span class="text-xs text-slate-400">Tour Nhật Bản</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact & Newsletter Section -->
-    <section id="contact" class="bg-brand-900 text-white py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div class="space-y-6">
-                <span class="text-brand-300 font-bold text-sm tracking-widest uppercase">Liên Hệ Với Chúng Tôi</span>
-                <h2 class="text-3xl sm:text-5xl font-extrabold leading-tight">Bạn Đã Sẵn Sàng Cho Chuyến Đi Tiếp Theo?</h2>
-                <p class="text-slate-300 text-lg">
-                    Hãy để lại thông tin hoặc đăng ký nhận bản tin để nhận ưu đãi lên đến 30% cho chuyến đi sắp tới của bạn.
-                </p>
-                <div class="space-y-4 pt-4">
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-brand-300">
-                            <i class="fa-solid fa-phone"></i>
-                        </div>
-                        <span class="font-semibold text-lg">+84 1900 6789</span>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-brand-300">
-                            <i class="fa-solid fa-envelope"></i>
-                        </div>
-                        <span class="font-semibold text-lg">contact@wanderlust.vn</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Contact Form -->
-            <div class="bg-white/10 backdrop-blur-md p-8 rounded-3xl border border-white/10">
-                <form id="contact-form" class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Họ và Tên</label>
-                        <input type="text" required placeholder="Nguyễn Văn A" class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-400">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Email</label>
-                        <input type="email" required placeholder="example@gmail.com" class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-400">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Lời nhắn / Yêu cầu tư vấn</label>
-                        <textarea rows="3" placeholder="Tôi muốn tư vấn tour..." class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-400"></textarea>
-                    </div>
-                    <button type="submit" class="w-full bg-brand-500 hover:bg-brand-400 text-slate-900 font-extrabold py-3.5 rounded-xl shadow-lg transition-all">
-                        Gửi Yêu Cầu Tư Vấn
-                    </button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-slate-950 text-slate-400 py-10 border-t border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left sm:flex sm:justify-between items-center">
-            <div class="mb-4 sm:mb-0">
-                <span class="text-xl font-bold text-white">WanderLust</span> - Nâng tầm trải nghiệm du lịch.
-            </div>
-            <div class="flex justify-center space-x-6 text-xl">
-                <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-facebook"></i></a>
-                <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-youtube"></i></a>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Booking Modal -->
-    <div id="booking-modal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden relative animate-fade-in">
-            <!-- Modal Header -->
-            <div class="bg-brand-600 text-white p-6 relative">
-                <button id="close-modal-btn" class="absolute top-4 right-4 text-white/80 hover:text-white text-2xl">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-                <h3 id="modal-tour-title" class="text-2xl font-bold">Đặt Tour Du Lịch</h3>
-                <p id="modal-tour-price" class="text-brand-100 text-sm mt-1"></p>
-            </div>
-
-            <!-- Modal Form -->
-            <form id="booking-form" class="p-6 space-y-4">
-                <input type="hidden" id="modal-tour-id">
-                <div>
-                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Họ và Tên</label>
-                    <input type="text" id="book-name" required class="w-full border border-slate-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-brand-500 outline-none" placeholder="Nguyễn Văn A">
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Số điện thoại</label>
-                        <input type="tel" id="book-phone" required class="w-full border border-slate-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-brand-500 outline-none" placeholder="0912345678">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Số lượng khách</label>
-                        <input type="number" id="book-guests" min="1" max="20" value="1" required class="w-full border border-slate-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-brand-500 outline-none">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Ngày khởi hành dự kiến</label>
-                    <input type="date" id="book-date" required class="w-full border border-slate-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-brand-500 outline-none">
-                </div>
-                <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 rounded-xl shadow-md transition-all mt-2">
-                    Xác Nhận Đặt Tour
-                </button>
-            </form>
-        </div>
+<!-- ===== ĐẶT TOUR ===== -->
+<section id="dattour">
+  <h2 class="section-title reveal">Đặt chỗ</h2>
+  <p class="section-sub reveal">Mỗi chuyến chỉ nhận tối đa 20 khách</p>
+  <div class="booking reveal">
+    <div class="price-box">
+      <div class="from">Giá chỉ từ</div>
+      <div class="price">4.990.000đ</div>
+      <div class="from">/ khách · Tour 4 ngày 3 đêm</div>
+      <div class="seat-bar"><div class="seat-fill" id="seatFill"></div></div>
+      <div id="seatText"></div>
     </div>
 
-    <!-- Message Alert Toast -->
-    <div id="toast" class="fixed bottom-5 right-5 z-50 hidden bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3">
-        <i class="fa-solid fa-circle-check text-emerald-400 text-xl"></i>
-        <span id="toast-message" class="font-medium text-sm">Thao tác thành công!</span>
-    </div>
+    <form id="bookForm">
+      <label for="name">Họ và tên</label>
+      <input id="name" required placeholder="Nguyễn Văn A">
+      <label for="phone">Số điện thoại</label>
+      <input id="phone" type="tel" required pattern="[0-9]{9,11}" placeholder="09xxxxxxxx">
+      <label for="qty">Số lượng khách</label>
+      <input id="qty" type="number" min="1" value="1" required>
+      <div class="total" id="total"></div>
+      <button class="btn" type="submit" style="width:100%">Xác nhận đặt chỗ</button>
+      <div class="msg" id="msg"></div>
+    </form>
+  </div>
+</section>
 
-    <!-- JavaScript Logic -->
-    <script>
-        // Tour Data Sample
-        const toursData = [
-            {
-                id: 1,
-                title: "Đà Nẵng - Hội An - Bà Nà Hills",
-                location: "da-nang",
-                type: "culture",
-                priceValue: 4800000,
-                price: "4.800.000 VNĐ",
-                duration: "3 Ngày 2 Đêm",
-                rating: "4.9",
-                image: "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?q=80&w=800&auto=format&fit=crop",
-                badge: "Bán chạy"
-            },
-            {
-                id: 2,
-                title: "Phú Quốc - Thiên Đường Nghỉ Dưỡng",
-                location: "phu-quoc",
-                type: "beach",
-                priceValue: 7500000,
-                price: "7.500.000 VNĐ",
-                duration: "4 Ngày 3 Đêm",
-                rating: "5.0",
-                image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=800&auto=format&fit=crop",
-                badge: "Hot Deal"
-            },
-            {
-                id: 3,
-                title: "Du Thuyền Vịnh Hạ Long Đắng Cấp 5*",
-                location: "ha-long",
-                type: "luxury",
-                priceValue: 6200000,
-                price: "6.200.000 VNĐ",
-                duration: "2 Ngày 1 Đêm",
-                rating: "4.8",
-                image: "https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=800&auto=format&fit=crop",
-                badge: "Luxury"
-            },
-            {
-                id: 4,
-                title: "Sapa - Chinh Phục Đỉnh Fansipan",
-                location: "sapa",
-                type: "mountain",
-                priceValue: 3900000,
-                price: "3.900.000 VNĐ",
-                duration: "3 Ngày 2 Đêm",
-                rating: "4.7",
-                image: "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?q=80&w=800&auto=format&fit=crop",
-                badge: "Tiết kiệm"
-            },
-            {
-                id: 5,
-                title: "Nhật Bản - Mùa Hoa Anh Đào Tokyol",
-                location: "japan",
-                type: "luxury",
-                priceValue: 28900000,
-                price: "28.900.000 VNĐ",
-                duration: "6 Ngày 5 Đêm",
-                rating: "5.0",
-                image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=800&auto=format&fit=crop",
-                badge: "Quốc tế"
-            },
-            {
-                id: 6,
-                title: "Phú Quốc - Tour Lặn Biển Ngắm San Hô",
-                location: "phu-quoc",
-                type: "beach",
-                priceValue: 3200000,
-                price: "3.200.000 VNĐ",
-                duration: "2 Ngày 1 Đêm",
-                rating: "4.8",
-                image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=800&auto=format&fit=crop",
-                badge: "Trải nghiệm"
-            }
-        ];
+<footer>© 2026 SoulSpire – Hành trình Nam Bộ. Mọi hành trình đều bắt đầu từ một bước chân.</footer>
 
-        // Render Tours Function
-        function renderTours(tours) {
-            const grid = document.getElementById('tours-grid');
-            const noTours = document.getElementById('no-tours');
-            grid.innerHTML = '';
+<script>
+/* ============================================================
+   DỮ LIỆU – muốn sửa nội dung thì chỉ cần sửa phần này
+   ============================================================ */
+const days = [
+  { city:"TP. Hồ Chí Minh", title:"Ngày 1 · Sài Gòn xưa & nay", stops:[
+    {name:"Dinh Độc Lập", note:"Di tích lịch sử gắn với thời khắc thống nhất đất nước."},
+    {name:"Bưu điện Thành phố", note:"Công trình kiến trúc Pháp cổ điển, vẫn đang hoạt động."},
+    {name:"Nhà thờ Đức Bà", note:"Biểu tượng gạch đỏ giữa trung tâm Sài Gòn."},
+    {name:"Bảo tàng Chứng tích Chiến tranh", note:"Nơi lưu giữ hình ảnh và hiện vật về một thời kỳ không thể quên."},
+    {name:"Chợ Bến Thành", note:"Mua sắm, thưởng thức đặc sản và cảm nhận nhịp sống Sài Gòn."},
+    {name:"Phố Tây Bùi Viện", note:"Kết thúc ngày bằng không khí náo nhiệt về đêm."}
+  ]},
+  { city:"TP. Hồ Chí Minh", title:"Ngày 2 · Chợ Lớn & Củ Chi", stops:[
+    {name:"Chợ Lớn", note:"Khu phố người Hoa lâu đời với ẩm thực và văn hoá đặc sắc."},
+    {name:"Chùa Bà Thiên Hậu", note:"Ngôi chùa nổi tiếng với những vòng hương xoắn treo kín mái."},
+    {name:"Địa đạo Củ Chi", note:"Khám phá hệ thống đường hầm huyền thoại dưới lòng đất."}
+  ]},
+  { city:"Vũng Tàu", title:"Ngày 3 · Biển và ngọn hải đăng", stops:[
+    {name:"Hải đăng Vũng Tàu", note:"Đứng trên núi Nhỏ ngắm toàn cảnh thành phố biển."},
+    {name:"Bãi Sau (Thùy Vân)", note:"Bãi biển dài, thoáng, thích hợp tắm biển và dạo bộ."}
+  ]},
+  { city:"Vũng Tàu", title:"Ngày 4 · Làng chài & điểm dừng cuối", stops:[
+    {name:"Làng chài Bến Đá", note:"Cảnh ghe thuyền, nhịp sống ngư dân và hải sản tươi."},
+    {name:"Tượng Chúa Kitô Vua", note:"Tượng Chúa dang rộng hai tay trên đỉnh núi Nhỏ."},
+    {name:"KẾT THÚC HÀNH TRÌNH", note:"Hẹn gặp lại bạn ở chuyến đi tiếp theo!", end:true}
+  ]}
+];
 
-            if (tours.length === 0) {
-                noTours.classList.remove('hidden');
-                return;
-            } else {
-                noTours.classList.add('hidden');
-            }
+const hotels = [
+  {icon:"🏨", name:"Nhà Cuội Hotel", city:"TP. Hồ Chí Minh", note:"Nghỉ 2 đêm đầu, vị trí thuận tiện đi các điểm tham quan."},
+  {icon:"🌊", name:"Romeliess Hotel", city:"Vũng Tàu", note:"Nghỉ đêm thứ 3, gần biển."}
+];
 
-            tours.forEach(tour => {
-                const card = document.createElement('div');
-                card.className = 'bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col group';
-                card.innerHTML = `
-                    <div class="relative overflow-hidden h-60">
-                        <img src="${tour.image}" alt="${tour.title}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        <span class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-extrabold text-slate-800 shadow">
-                            ${tour.badge}
-                        </span>
-                        <div class="absolute bottom-4 right-4 bg-slate-900/70 backdrop-blur-md px-2.5 py-1 rounded-lg text-white text-xs font-bold flex items-center gap-1">
-                            <i class="fa-solid fa-star text-amber-400"></i> ${tour.rating}
-                        </div>
-                    </div>
-                    <div class="p-6 flex flex-col flex-grow justify-between space-y-4">
-                        <div>
-                            <div class="text-xs text-brand-600 font-bold uppercase tracking-wider mb-1">
-                                <i class="fa-regular fa-clock"></i> ${tour.duration}
-                            </div>
-                            <h3 class="text-xl font-bold text-slate-900 group-hover:text-brand-600 transition-colors">
-                                ${tour.title}
-                            </h3>
-                        </div>
-                        <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
-                            <div>
-                                <span class="text-xs text-slate-400 block">Giá từ</span>
-                                <span class="text-lg font-extrabold text-brand-700">${tour.price}</span>
-                            </div>
-                            <button onclick="openBookingModal(${tour.id})" class="px-4 py-2 bg-slate-900 hover:bg-brand-600 text-white rounded-xl text-sm font-bold transition-colors shadow">
-                                Đặt ngay
-                            </button>
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
+const foodHCM = ["Phở Phú Vương","Cơm niêu Thiên Lý","Cơm tấm Thuận Kiều","Nhà hàng Dìn Ký"];
+const foodVT  = ["Lẩu cá đuối","Măng chua mực xào","Bánh khọt","BBQ hải sản","Bánh bông lan trứng muối"];
 
-        // Filter Functionality
-        document.getElementById('search-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const loc = document.getElementById('filter-location').value;
-            const type = document.getElementById('filter-type').value;
-            const price = document.getElementById('filter-price').value;
+const MAX_SEATS = 20;      // số khách tối đa / chuyến
+const PRICE = 4990000;     // giá / người
+let booked = 0;            // số chỗ đã đặt (demo – chưa lưu vào server)
 
-            const filtered = toursData.filter(tour => {
-                const matchLoc = loc === 'all' || tour.location === loc;
-                const matchType = type === 'all' || tour.type === type;
-                
-                let matchPrice = true;
-                if (price === 'under-5') matchPrice = tour.priceValue < 5000000;
-                else if (price === '5-10') matchPrice = tour.priceValue >= 5000000 && tour.priceValue <= 10000000;
-                else if (price === 'over-10') matchPrice = tour.priceValue > 10000000;
+/* ============================================================
+   HIỂN THỊ LỊCH TRÌNH
+   ============================================================ */
+const tabsEl = document.getElementById('tabs');
+const panel  = document.getElementById('dayPanel');
 
-                return matchLoc && matchType && matchPrice;
-            });
+// Tạo nút tab cho từng ngày
+days.forEach((d,i)=>{
+  const b = document.createElement('button');
+  b.className = 'tab' + (i===0 ? ' active' : '');
+  b.textContent = 'Ngày ' + (i+1);
+  b.onclick = () => showDay(i);
+  tabsEl.appendChild(b);
+});
 
-            renderTours(filtered);
-        });
+// Vẽ nội dung 1 ngày vào khung
+function showDay(i){
+  document.querySelectorAll('.tab').forEach((t,idx)=>t.classList.toggle('active', idx===i));
+  const d = days[i];
+  panel.innerHTML = `
+    <span class="city-badge">📍 ${d.city}</span>
+    <h3>${d.title}</h3>
+    <ul class="timeline">
+      ${d.stops.map((s,n)=>`
+        <li class="${s.end?'end':''}">
+          <span class="num">${s.end?'★':n+1}</span>
+          <b>${s.name}</b><p>${s.note}</p>
+        </li>`).join('')}
+    </ul>`;
+}
+showDay(0);
 
-        // Booking Modal Logic
-        const modal = document.getElementById('booking-modal');
-        
-        function openBookingModal(tourId) {
-            const tour = toursData.find(t => t.id === tourId);
-            if (!tour) return;
+/* ============================================================
+   KHÁCH SẠN + ẨM THỰC
+   ============================================================ */
+document.getElementById('hotelGrid').innerHTML = hotels.map(h=>`
+  <div class="card reveal">
+    <div class="icon">${h.icon}</div>
+    <span class="tag">${h.city}</span>
+    <h3>${h.name}</h3><p>${h.note}</p>
+  </div>`).join('');
 
-            document.getElementById('modal-tour-id').value = tour.id;
-            document.getElementById('modal-tour-title').innerText = tour.title;
-            document.getElementById('modal-tour-price').innerText = `Giá: ${tour.price} / khách`;
-            modal.classList.remove('hidden');
-        }
+const chips = arr => arr.map(f=>`<span class="chip">${f}</span>`).join('');
+document.getElementById('foodHCM').innerHTML = chips(foodHCM);
+document.getElementById('foodVT').innerHTML  = chips(foodVT);
 
-        document.getElementById('close-modal-btn').addEventListener('click', () => {
-            modal.classList.add('hidden');
-        });
+/* ============================================================
+   HỘP QUÀ BÍ ẨN – chỉ lắc và nói "chưa tiết lộ"
+   ============================================================ */
+const box = document.getElementById('mysteryBox');
+const mText = document.getElementById('mysteryText');
+const hints = ["Chưa mở được đâu 🤫","Bí mật nằm ở cuối hành trình…","Chỉ người đi tour mới biết 🎁","Tò mò quá thì đặt chỗ đi nè!"];
+let hintIdx = 0;
+box.onclick = () => {
+  box.classList.remove('shake'); void box.offsetWidth; box.classList.add('shake'); // chạy lại animation
+  mText.textContent = hints[hintIdx++ % hints.length];
+};
 
-        document.getElementById('booking-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            modal.classList.add('hidden');
-            showToast("Đặt tour thành công! Đội ngũ tư vấn sẽ liên hệ lại với bạn ngay.");
-            e.target.reset();
-        });
+/* ============================================================
+   ĐẶT TOUR
+   ============================================================ */
+const seatFill = document.getElementById('seatFill');
+const seatText = document.getElementById('seatText');
+const qtyEl = document.getElementById('qty');
+const totalEl = document.getElementById('total');
+const msgEl = document.getElementById('msg');
+const vnd = n => n.toLocaleString('vi-VN') + 'đ';
 
-        document.getElementById('contact-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            showToast("Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi sớm nhất.");
-            e.target.reset();
-        });
+function updateSeats(){
+  const left = MAX_SEATS - booked;
+  seatFill.style.width = (booked / MAX_SEATS * 100) + '%';
+  seatText.textContent = left > 0 ? `Còn ${left}/${MAX_SEATS} chỗ` : 'Chuyến này đã đầy';
+  qtyEl.max = left;
+  totalEl.textContent = 'Tạm tính: ' + vnd((+qtyEl.value || 0) * PRICE);
+}
+qtyEl.addEventListener('input', updateSeats);
+updateSeats();
 
-        // Toast Notification
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toast-message').innerText = message;
-            toast.classList.remove('hidden');
-            setTimeout(() => {
-                toast.classList.add('hidden');
-            }, 3500);
-        }
+document.getElementById('bookForm').addEventListener('submit', e=>{
+  e.preventDefault();                       // chặn trang tải lại
+  const qty = +qtyEl.value, left = MAX_SEATS - booked;
+  if(qty > left){
+    msgEl.className = 'msg error';
+    msgEl.textContent = left ? `Chỉ còn ${left} chỗ thôi bạn nhé.` : 'Rất tiếc, chuyến này đã đầy.';
+    return;
+  }
+  booked += qty;
+  msgEl.className = 'msg';
+  msgEl.textContent = `Cảm ơn ${document.getElementById('name').value}! Đã giữ ${qty} chỗ, tổng ${vnd(qty*PRICE)}. SoulSpire sẽ liên hệ sớm.`;
+  e.target.reset(); qtyEl.value = 1;
+  updateSeats();
+});
 
-        // Mobile Menu Toggle
-        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        });
-
-        // Initial Load
-        window.onload = function() {
-            renderTours(toursData);
-        };
-    </script>
+/* ============================================================
+   HIỆU ỨNG HIỆN DẦN KHI CUỘN
+   ============================================================ */
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('show'); io.unobserve(en.target); } });
+},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
 </body>
 </html>
